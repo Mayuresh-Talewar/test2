@@ -1,29 +1,19 @@
-<!-- templates/login.html -->
+<!-- templates/dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Login</title>
+    <title>Dashboard</title>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+    <div class="dashboard-container">
+        <h2>Welcome, {{ session['user'] }}</h2>
+        <p>You are successfully logged in!</p>
+        <form action="{{ url_for('logout') }}" method="GET">
+            <button type="submit" class="logout-button">Logout</button>
         </form>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class="flashes">
-            {% for category, message in messages %}
-              <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
     </div>
 </body>
 </html>

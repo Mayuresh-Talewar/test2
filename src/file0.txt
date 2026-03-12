@@ -1,0 +1,6 @@
+📁 flask_login_app/
+├── app.py
+├── templates/
+│   └── login.html
+└── static/
+    └── style.css

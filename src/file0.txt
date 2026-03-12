@@ -2,6 +2,7 @@
 ├── app.py
 ├── templates/
 │   ├── login.html
-│   └── dashboard.html
+│   ├── dashboard.html
+│   └── register.html
 └── static/
     └── style.css

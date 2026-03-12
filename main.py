@@ -2,13 +2,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Necessary for session management
+app.secret_key = 'your_secret_key'
 
-# Dummy user data for demonstration
-USER_DATA = {
-    "email": "user@example.com",
-    "password": "securepassword"
-}
+# In-memory user database for demonstration
+USERS = {}
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -16,7 +13,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        if email == USER_DATA['email'] and password == USER_DATA['password']:
+        if email in USERS and USERS[email] == password:
             session['user'] = email
             return redirect(url_for('dashboard'))
         else:
@@ -24,10 +21,25 @@ def login():
     
     return render_template('login.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        if email in USERS:
+            flash('Email already registered', 'error')
+        else:
+            USERS[email] = password
+            flash('Registration successful! Please log in.', 'success')
+            return redirect(url_for('login'))
+
+    return render_template('register.html')
+
 @app.route('/dashboard')
 def dashboard():
     if 'user' in session:
-        return f"Welcome {session['user']}! You are logged in."
+        return render_template('dashboard.html')
     else:
         return redirect(url_for('login'))
 
